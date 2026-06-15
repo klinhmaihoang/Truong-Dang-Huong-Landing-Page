@@ -588,14 +588,44 @@
     });
   });
 
-  // Form đăng ký tư vấn (demo — chưa nối backend)
+  // ============================================================
+  // Form đăng ký tư vấn — gửi về Google Apps Script (Sheet: RAW_DangKyTuVan
+  // + thông báo Telegram qua bot hiện tại)
+  // ============================================================
+  // THAY URL DƯỚI ĐÂY bằng URL Web App sau khi deploy AppScript_RAW.gs
+  // (Deploy > Manage deployments > Web app > Copy URL, dạng:
+  //  https://script.google.com/macros/s/XXXXXXXXXXXX/exec)
+  const APPS_SCRIPT_URL = 'PASTE_WEB_APP_URL_HERE';
+
   const form = document.getElementById('registerForm');
   const success = document.getElementById('formSuccess');
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const payload = {
+      action: 'dangKyTuVan',
+      hoTen: document.getElementById('fullname').value.trim(),
+      soDienThoai: document.getElementById('phone').value.trim(),
+      khoaHoc: document.getElementById('course').value
+    };
+
+    // Lưu ý: dùng mode 'no-cors' nên trình duyệt KHÔNG đọc được response.
+    // Yêu cầu vẫn được gửi đi và doPost() vẫn chạy ở phía Apps Script —
+    // chỉ là JS không biết được kết quả thành công/thất bại.
+    // => Sau khi deploy, nhớ test thử và kiểm tra trực tiếp trong
+    //    Sheet RAW_DangKyTuVan + Telegram để chắc chắn đã nhận được.
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).catch(() => {
+      // bỏ qua lỗi network — vẫn hiện thông báo thành công cho khách
+    });
+
     form.classList.add('hidden');
     success.classList.remove('hidden');
-    // TODO: nối API/Google Sheet/Telegram tại đây để nhận dữ liệu đăng ký thực tế
   });
 </script>
 
