@@ -327,7 +327,7 @@
   <div class="max-w-2xl">
     <span class="font-mono text-xs tracking-[0.25em] uppercase text-[var(--terracotta)]">Khóa học online</span>
     <h2 class="font-extrabold text-3xl md:text-4xl mt-3 tracking-tight">Học mọi lúc, theo nhịp của bạn</h2>
-    <p class="text-[var(--espresso-soft)] mt-3">4 chuyên đề pha chế chuyên sâu, học online linh hoạt, xem lại không giới hạn.</p>
+    <p class="text-[var(--espresso-soft)] mt-3">5 chuyên đề pha chế chuyên sâu + 1 gói trọn bộ tiết kiệm, học online linh hoạt, xem lại không giới hạn.</p>
   </div>
 
   <!-- Tabs -->
@@ -336,6 +336,8 @@
     <button class="tab-btn" data-tab="ca-phe">Chuyên đề Cà Phê</button>
     <button class="tab-btn" data-tab="kem">Chuyên đề Kem</button>
     <button class="tab-btn" data-tab="tra">Lục Trà &amp; Hồng Trà</button>
+    <button class="tab-btn" data-tab="topping">Chuyên đề Topping</button>
+    <button class="tab-btn" data-tab="tong-hop">🔥 Gói Tổng Hợp</button>
   </div>
 
   <div class="mt-6">
@@ -465,6 +467,56 @@
       </div>
     </div>
 
+    <!-- TOPPING -->
+    <div class="tab-panel hidden grid md:grid-cols-[340px_1fr] gap-6" data-panel="topping">
+      <div class="ticket p-6">
+        <p class="font-mono text-xs tracking-[0.3em] text-[var(--espresso-soft)]">CHUYÊN ĐỀ</p>
+        <h3 class="font-bold text-xl mt-1">Topping</h3>
+        <div class="mt-4 flex items-baseline gap-2 flex-wrap">
+          <span class="font-black text-3xl text-[var(--terracotta)]">990.000đ</span>
+          <span class="font-mono text-xs bg-[var(--honey)] text-white px-2 py-1 rounded-full font-bold">-18%</span>
+        </div>
+        <p class="font-mono text-sm text-[var(--espresso-soft)] mt-1"><s>1.200.000đ</s></p>
+        <a href="#contact" class="btn-primary mt-5 w-full inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm">Đăng ký chuyên đề</a>
+      </div>
+      <div class="bg-white border border-[var(--line)] rounded-2xl p-6">
+        <p class="font-bold mb-4">Bạn sẽ học các công thức:</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="chip">Sương sáo</span>
+          <span class="chip">Pudding phô mai</span>
+          <span class="chip">Pudding khoai môn</span>
+          <span class="chip">Pudding trứng</span>
+          <span class="chip">Thạch quế hoa</span>
+          <span class="chip">Trân châu đường nâu</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GÓI TỔNG HỢP -->
+    <div class="tab-panel hidden grid md:grid-cols-[340px_1fr] gap-6" data-panel="tong-hop">
+      <div class="ticket p-6" style="border-color:var(--honey)">
+        <p class="font-mono text-xs tracking-[0.3em] text-[var(--honey-deep)] font-bold">🔥 TIẾT KIỆM NHẤT</p>
+        <h3 class="font-bold text-xl mt-1">Gói Tổng Hợp — Tất Cả Chuyên Đề</h3>
+        <div class="mt-4 flex items-baseline gap-2 flex-wrap">
+          <span class="font-black text-3xl text-[var(--terracotta)]">5.500.000đ</span>
+          <span class="font-mono text-xs bg-[var(--honey)] text-white px-2 py-1 rounded-full font-bold">-25%</span>
+        </div>
+        <p class="font-mono text-sm text-[var(--espresso-soft)] mt-1"><s>7.300.000đ</s></p>
+        <a href="#contact" class="btn-primary mt-5 w-full inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm">Đăng ký gói trọn bộ</a>
+      </div>
+      <div class="bg-white border border-[var(--line)] rounded-2xl p-6">
+        <p class="font-bold mb-4">Bao gồm trọn bộ 5 chuyên đề (52 công thức):</p>
+        <div class="space-y-2.5 font-mono text-sm">
+          <div class="flex justify-between border-b border-dashed border-[var(--line)] pb-2"><span>Chuyên đề Trà Sữa</span><span class="font-bold text-[var(--espresso-soft)]">10 công thức</span></div>
+          <div class="flex justify-between border-b border-dashed border-[var(--line)] pb-2"><span>Chuyên đề Cà Phê</span><span class="font-bold text-[var(--espresso-soft)]">9 công thức</span></div>
+          <div class="flex justify-between border-b border-dashed border-[var(--line)] pb-2"><span>Chuyên đề Kem</span><span class="font-bold text-[var(--espresso-soft)]">8 công thức</span></div>
+          <div class="flex justify-between border-b border-dashed border-[var(--line)] pb-2"><span>Lục Trà &amp; Hồng Trà</span><span class="font-bold text-[var(--espresso-soft)]">19 công thức</span></div>
+          <div class="flex justify-between"><span>Chuyên đề Topping</span><span class="font-bold text-[var(--espresso-soft)]">6 công thức</span></div>
+        </div>
+        <p class="text-sm text-[var(--espresso-soft)] mt-5">Học mọi lúc, xem lại không giới hạn — tiết kiệm <strong class="text-[var(--terracotta)]">1.800.000đ</strong> so với mua riêng từng chuyên đề.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -512,6 +564,8 @@
             <option>Online – Chuyên đề Cà Phê</option>
             <option>Online – Chuyên đề Kem</option>
             <option>Online – Chuyên đề Lục Trà &amp; Hồng Trà</option>
+            <option>Online – Chuyên đề Topping</option>
+            <option>Online – Gói Tổng Hợp (tất cả chuyên đề)</option>
             <option>Chưa chắc, cần tư vấn thêm</option>
           </select>
         </div>
