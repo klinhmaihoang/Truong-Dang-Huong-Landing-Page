@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — TDH Academy</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --honey:#F0A319;--honey-deep:#D4900A;--paper:#FFF8EE;--cream:#fff;
+  --espresso:#1C1917;--soft:#78716C;--line:#FDDFA4;
+  --danger:#DC2626;--success:#16A34A;--warn:#D97706;
+  --sidebar:#1C1917;--border:#E7E5E4;--bg:#F5F5F4;
+}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--espresso);min-height:100vh}
+
+/* ── Login ── */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1C1917,#292524)}
+.login-box{background:#fff;border-radius:16px;padding:40px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo .emoji{font-size:2.5rem}
+.login-logo h1{font-size:1.25rem;font-weight:800;margin-top:8px}
+.login-logo p{color:var(--soft);font-size:.8rem;margin-top:2px}
+.f-group{margin-bottom:14px}
+.f-group label{display:block;font-size:.8125rem;font-weight:600;margin-bottom:5px}
+.f-group input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;font-size:.9375rem;outline:none;transition:border-color .15s}
+.f-group input:focus{border-color:var(--honey)}
+.btn-login{width:100%;background:var(--honey);color:#fff;border:none;border-radius:8px;padding:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-top:4px}
+.btn-login:hover{background:var(--honey-deep)}
+.login-err{color:var(--danger);font-size:.8125rem;margin-top:8px;text-align:center;display:none}
+
+/* ── Layout ── */
+#admin-screen{display:none}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ── Sidebar ── */
+.sidebar{background:var(--sidebar);color:#fff;display:flex;flex-direction:column}
+.sb-head{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-brand{font-size:.875rem;font-weight:800;letter-spacing:.03em;color:var(--honey)}
+.sb-sub{color:rgba(255,255,255,.4);font-size:.75rem}
+.sb-nav{flex:1;padding:14px 0;overflow-y:auto}
+.sb-section{padding:8px 20px 3px;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:6px}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 20px;font-size:.875rem;color:rgba(255,255,255,.6);cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;border-left-color:var(--honey);background:rgba(240,163,25,.1)}
+.sb-item svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-foot{padding:14px 20px;border-top:1px solid rgba(255,255,255,.08)}
+.btn-logout{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);border-radius:8px;padding:9px;font-size:.8125rem;cursor:pointer;transition:all .15s}
+.btn-logout:hover{background:rgba(255,255,255,.13);color:#fff}
+
+/* ── Main ── */
+.main{display:flex;flex-direction:column;overflow:hidden;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:15px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;flex-shrink:0}
+.topbar h1{font-size:1.1rem;font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.status-badge{font-size:.75rem;font-weight:600;padding:4px 10px;border-radius:20px;background:var(--bg);color:var(--soft);border:1px solid var(--border)}
+.status-badge.dirty{background:#FFF7ED;color:var(--warn);border-color:#FED7AA}
+.status-badge.saving{background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE}
+.status-badge.saved{background:#F0FDF4;color:var(--success);border-color:#BBF7D0}
+.content{padding:28px;overflow-y:auto;flex:1}
+
+/* ── Panels ── */
+.panel{display:none}.panel.active{display:block}
+
+/* ── Cards ── */
+.card{background:#fff;border-radius:12px;border:1px solid var(--border);margin-bottom:18px;overflow:hidden}
+.card-head{padding:15px 20px;border-bottom:1px solid #F5F5F4;display:flex;align-items:center;justify-content:space-between}
+.card-head h2{font-size:.9375rem;font-weight:700}
+.card-tag{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--paper);color:var(--honey-deep);padding:3px 8px;border-radius:4px}
+.card-body{padding:20px}
+
+/* ── Form ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.grid-1{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.8rem;font-weight:600;color:var(--espresso)}
+.field label .hint{font-weight:400;color:var(--soft)}
+.field input,.field textarea,.field select{border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;font-size:.9rem;font-family:inherit;outline:none;transition:border-color .15s;color:var(--espresso)}
+.field input:focus,.field textarea:focus{border-color:var(--honey)}
+.field textarea{resize:vertical;min-height:72px}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:8px;padding:8px 16px;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-primary{background:var(--honey);color:#fff}.btn-primary:hover{background:var(--honey-deep)}
+.btn-secondary{background:var(--bg);color:var(--espresso);border:1px solid var(--border)}.btn-secondary:hover{background:#EBEBEA}
+.btn-danger{background:#FEF2F2;color:var(--danger);border:1px solid #FECACA}.btn-danger:hover{background:#FEE2E2}
+.btn-sm{padding:5px 11px;font-size:.8rem}
+
+/* ── Tag input ── */
+.tag-wrap{border:1.5px solid var(--border);border-radius:8px;padding:7px;display:flex;flex-wrap:wrap;gap:5px;min-height:44px;cursor:text;transition:border-color .15s}
+.tag-wrap:focus-within{border-color:var(--honey)}
+.tag-pill{display:inline-flex;align-items:center;gap:4px;background:var(--paper);border:1px solid var(--line);color:var(--honey-deep);font-size:.78rem;font-weight:500;padding:3px 9px;border-radius:20px}
+.tag-pill button{background:none;border:none;cursor:pointer;color:var(--honey-deep);font-size:.95rem;line-height:1;padding:0;opacity:.55;transition:opacity .1s}
+.tag-pill button:hover{opacity:1}
+.tag-wrap .tag-inp{border:none;outline:none;font-size:.875rem;background:transparent;min-width:120px;flex:1;padding:2px 4px}
+
+/* ── List items ── */
+.list-item{border:1.5px solid var(--border);border-radius:10px;padding:15px;margin-bottom:10px;position:relative}
+.list-item-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--soft);margin-bottom:10px}
+.remove-btn{position:absolute;top:11px;right:11px;background:#FEF2F2;border:1px solid #FECACA;color:var(--danger);border-radius:6px;padding:3px 9px;font-size:.75rem;font-weight:600;cursor:pointer}
+.remove-btn:hover{background:#FEE2E2}
+.add-btn{border:2px dashed var(--border);background:transparent;color:var(--soft);border-radius:10px;padding:12px;width:100%;font-size:.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;font-family:inherit}
+.add-btn:hover{border-color:var(--honey);color:var(--honey-deep);background:var(--paper)}
+
+/* ── Info box ── */
+.info-box{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 15px;font-size:.84rem;color:#92400E;margin-bottom:18px}
+.info-box strong{color:var(--honey-deep)}
+.divider{border:none;border-top:1px dashed var(--border);margin:16px 0}
+.section-label{font-size:.875rem;font-weight:700;margin-bottom:13px}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px}
+.stat-lbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--soft)}
+.stat-val{font-size:1.75rem;font-weight:800;margin-top:3px}
+.stat-sub{font-size:.78rem;color:var(--soft);margin-top:2px}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--espresso);color:#fff;padding:12px 18px;border-radius:10px;font-size:.875rem;font-weight:500;transform:translateY(70px);opacity:0;transition:all .3s;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{background:#15803D}
+.toast.err{background:var(--danger)}
+.toast.warn{background:var(--warn)}
+
+/* ── Spinner ── */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.loading-overlay{position:fixed;inset:0;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;z-index:50;display:none}
+.loading-overlay.show{display:flex}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="emoji">🧋</div>
+      <h1>TDH Academy Admin</h1>
+      <p>Trang quản trị nội dung</p>
+    </div>
+    <div class="f-group">
+      <label>Mật khẩu</label>
+      <input type="password" id="pwd" placeholder="Nhập mật khẩu..." onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <button class="btn-login" onclick="login()">Đăng nhập</button>
+    <div class="login-err" id="login-err">Mật khẩu không đúng.</div>
+  </div>
+</div>
+
+<!-- ── ADMIN ── -->
+<div id="admin-screen">
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-head">
+      <div class="sb-brand">TDH ACADEMY</div>
+      <div class="sb-sub">Admin Panel</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Tổng quan</div>
+      <div class="sb-item active" data-panel="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
+      </div>
+      <div class="sb-section">Khóa Offline</div>
+      <div class="sb-item" data-panel="cotloi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>Cốt Lõi Thực Chiến
+      </div>
+      <div class="sb-item" data-panel="az">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Pha Chế Từ A–Z
+      </div>
+      <div class="sb-section">Khóa Online</div>
+      <div class="sb-item" data-panel="online">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Các chuyên đề
+      </div>
+      <div class="sb-section">Nội dung</div>
+      <div class="sb-item" data-panel="benefits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Quyền lợi học viên
+      </div>
+      <div class="sb-item" data-panel="founder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M3 21c0-4.418 4.03-8 9-8s9 3.582 9 8"/></svg>Về cô Hương
+      </div>
+    </nav>
+    <div class="sb-foot">
+      <button class="btn-logout" onclick="logout()">Đăng xuất</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="panel-title">Dashboard</h1>
+      <div class="topbar-right">
+        <span class="status-badge" id="status-badge">Đang tải...</span>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="stats">
+          <div class="stat"><div class="stat-lbl">Lớp Offline</div><div class="stat-val" id="s-offline">—</div><div class="stat-sub">đang hoạt động</div></div>
+          <div class="stat"><div class="stat-lbl">Chuyên đề Online</div><div class="stat-val" id="s-online">—</div><div class="stat-sub">chuyên đề</div></div>
+          <div class="stat"><div class="stat-lbl">Quyền lợi</div><div class="stat-val" id="s-benefits">—</div><div class="stat-sub">cam kết</div></div>
+          <div class="stat"><div class="stat-lbl">Kết nối DB</div><div class="stat-val" id="s-db" style="font-size:1rem;margin-top:8px">—</div><div class="stat-sub">Supabase</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Hướng dẫn nhanh</h2></div>
+          <div class="card-body">
+            <div class="info-box">Mọi thay đổi được <strong>lưu thẳng vào Supabase</strong> — landing page tự động hiển thị nội dung mới ngay khi khách truy cập, không cần đụng code hay push GitHub.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:.875rem">
+              <div style="background:var(--bg);border-radius:8px;padding:15px">
+                <strong style="display:block;margin-bottom:6px">✏️ Có thể chỉnh sửa</strong>
+                <ul style="color:var(--soft);line-height:2;padding-left:16px">
+                  <li>Giá học phí & số học viên</li>
+                  <li>Tên & mô tả lớp học</li>
+                  <li>Danh sách món trong lớp</li>
+                  <li>Quyền lợi học viên</li>
+                  <li>Thông tin về cô Hương</li>
+                  <li>Thêm / bớt chuyên đề online</li>
+                </ul>
+              </div>
+              <div style="background:var(--bg);border-radius:8px;padding:15px">
+                <strong style="display:block;margin-bottom:6px">⚡ Cách dùng</strong>
+                <ol style="color:var(--soft);line-height:2;padding-left:16px">
+                  <li>Chọn mục cần sửa bên trái</li>
+                  <li>Chỉnh nội dung trực tiếp</li>
+                  <li>Nhấn <strong style="color:var(--espresso)">Lưu</strong></li>
+                  <li>Landing page cập nhật ngay ✅</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CỐT LÕI -->
+      <div class="panel" id="panel-cotloi">
+        <div class="card">
+          <div class="card-head"><h2>Lớp Cốt Lõi Thực Chiến</h2><span class="card-tag">Offline · 1 ngày</span></div>
+          <div class="card-body">
+            <div class="grid-3">
+              <div class="field"><label>Tên lớp</label><input id="cl-name" type="text"></div>
+              <div class="field"><label>Học phí <span class="hint">(VNĐ)</span></label><input id="cl-price" type="number"></div>
+              <div class="field"><label>Số HV tối đa</label><input id="cl-maxhv" type="number" min="1"></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>Thời gian học</label><input id="cl-duration" type="text"></div>
+              <div class="field"><label>Badge hiển thị</label><input id="cl-badge" type="text"></div>
+            </div>
+            <div class="grid-1">
+              <div class="field"><label>Mô tả ngắn</label><textarea id="cl-desc"></textarea></div>
+            </div>
+            <hr class="divider">
+            <div class="section-label">Quyền lợi đi kèm</div>
+            <div id="cl-benefits-list"></div>
+            <button class="add-btn" onclick="addBenefitItem('cl')">+ Thêm quyền lợi</button>
+            <hr class="divider">
+            <div class="section-label">Nội dung giảng dạy</div>
+            <div class="grid-2">
+              <div class="field"><label>Trà nền + Trà trái cây</label><div class="tag-wrap" id="cl-tra-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
+              <div class="field"><label>Trà sữa</label><div class="tag-wrap" id="cl-sua-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+              <button class="btn btn-primary" onclick="saveCotLoi()">💾 Lưu thay đổi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A-Z -->
+      <div class="panel" id="panel-az">
+        <div class="card">
+          <div class="card-head"><h2>Lớp Pha Chế Từ A–Z</h2><span class="card-tag">Offline · 2 ngày</span></div>
+          <div class="card-body">
+            <div class="grid-3">
+              <div class="field"><label>Tên lớp</label><input id="az-name" type="text"></div>
+              <div class="field"><label>Học phí <span class="hint">(VNĐ)</span></label><input id="az-price" type="number"></div>
+              <div class="field"><label>Giá gốc <span class="hint">(gạch ngang)</span></label><input id="az-orig" type="number"></div>
+            </div>
+            <div class="grid-3">
+              <div class="field"><label>Số HV tối đa</label><input id="az-maxhv" type="number" min="1"></div>
+              <div class="field"><label>Thời gian học</label><input id="az-duration" type="text"></div>
+              <div class="field"><label>Badge hiển thị</label><input id="az-badge" type="text"></div>
+            </div>
+            <div class="grid-1">
+              <div class="field"><label>Mô tả ngắn</label><textarea id="az-desc"></textarea></div>
+            </div>
+            <hr class="divider">
+            <div class="section-label">Quyền lợi đi kèm</div>
+            <div id="az-benefits-list"></div>
+            <button class="add-btn" onclick="addBenefitItem('az')">+ Thêm quyền lợi</button>
+            <hr class="divider">
+            <div class="section-label">Ngày 1 — Trà & Trà Sữa</div>
+            <div class="grid-2">
+              <div class="field"><label>Trà nền + Trà trái cây</label><div class="tag-wrap" id="az-tra-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
+              <div class="field"><label>Trà sữa</label><div class="tag-wrap" id="az-sua-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
+            </div>
+            <hr class="divider">
+            <div class="section-label">Ngày 2 — Topping, Đá Xay, Cà Phê, Matcha</div>
+            <div class="grid-2">
+              <div class="field"><label>Cách nấu topping</label><div class="tag-wrap" id="az-top-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
+              <div class="field"><label>Đá xay + Cà phê + Matcha</label><div class="tag-wrap" id="az-cf-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+              <button class="btn btn-primary" onclick="saveAZ()">💾 Lưu thay đổi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ONLINE -->
+      <div class="panel" id="panel-online">
+        <div class="info-box">Thêm / bớt / sửa các chuyên đề online. Thay đổi được lưu ngay vào Supabase.</div>
+        <div id="online-list"></div>
+        <button class="add-btn" onclick="addOnlineCourse()">+ Thêm chuyên đề mới</button>
+      </div>
+
+      <!-- BENEFITS -->
+      <div class="panel" id="panel-benefits">
+        <div class="card">
+          <div class="card-head"><h2>Quyền lợi học viên</h2></div>
+          <div class="card-body">
+            <div class="info-box">Các mục hiển thị trong section "Cam kết đồng hành" trên landing page.</div>
+            <div id="global-benefits-list"></div>
+            <button class="add-btn" onclick="addGlobalBenefit()">+ Thêm quyền lợi</button>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+              <button class="btn btn-primary" onclick="saveGlobalBenefits()">💾 Lưu thay đổi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOUNDER -->
+      <div class="panel" id="panel-founder">
+        <div class="card">
+          <div class="card-head"><h2>Về cô Trương Dáng Hương</h2></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="field"><label>Số năm kinh nghiệm</label><input id="f-years" type="number"></div>
+              <div class="field"><label>Số chi nhánh đã vận hành</label><input id="f-branches" type="number"></div>
+            </div>
+            <div class="grid-1">
+              <div class="field"><label>Chức danh ngắn</label><input id="f-title" type="text"></div>
+            </div>
+            <div class="grid-1">
+              <div class="field"><label>Đoạn giới thiệu</label><textarea id="f-bio" style="min-height:110px"></textarea></div>
+            </div>
+            <div class="grid-1">
+              <div class="field"><label>Câu tagline hero (dưới tên Academy)</label><textarea id="f-hero" style="min-height:60px"></textarea></div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+              <button class="btn btn-primary" onclick="saveFounder()">💾 Lưu thay đổi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+</div>
+
+<div class="loading-overlay" id="loader"><div class="spinner" style="width:32px;height:32px;border-width:3px;border-color:rgba(240,163,25,.3);border-top-color:var(--honey)"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════
+const ADMIN_PASSWORD = 'tdh2025admin'; // ← ĐỔI MẬT KHẨU TẠI ĐÂY
+
+const SB_URL  = 'https://rigfhkfjllkwbiurplqy.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZ2Zoa2ZqbGxrd2JpdXJwbHF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjk3MjksImV4cCI6MjEwMDkwNTcyOX0.vyf-s6VJriVFOnRL_V0jIpGZKkuJwx2czSR76FupTzc';
+const SB_SVC  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZ2Zoa2ZqbGxrd2JpdXJwbHF5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTMyOTcyOSwiZXhwIjoyMTAwOTA1NzI5fQ.elpccpOGlReLgldetwV6rYl8Khp_N7GkGoufXv12jeo';
+
+// ═══════════════════════════════════════════════════
+// SUPABASE HELPERS
+// ═══════════════════════════════════════════════════
+async function sbGet(table, query='') {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${query}`, {
+    headers: { 'apikey': SB_ANON, 'Authorization': `Bearer ${SB_ANON}` }
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+async function sbUpsert(table, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SB_SVC, 'Authorization': `Bearer ${SB_SVC}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates,return=minimal'
+    },
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error(await r.text());
+}
+
+async function sbDelete(table, filter) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${filter}`, {
+    method: 'DELETE',
+    headers: { 'apikey': SB_SVC, 'Authorization': `Bearer ${SB_SVC}` }
+  });
+  if (!r.ok) throw new Error(await r.text());
+}
+
+async function sbPatch(table, filter, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${filter}`, {
+    method: 'PATCH',
+    headers: {
+      'apikey': SB_SVC, 'Authorization': `Bearer ${SB_SVC}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error(await r.text());
+}
+
+// ═══════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════
+function login() {
+  if (document.getElementById('pwd').value === ADMIN_PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+    document.getElementById('pwd').value = '';
+    document.getElementById('pwd').focus();
+  }
+}
+function logout() {
+  document.getElementById('admin-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pwd').value = '';
+}
+document.getElementById('pwd').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+
+// ═══════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════
+const TITLES = { dashboard:'Dashboard', cotloi:'Cốt Lõi Thực Chiến', az:'Pha Chế Từ A–Z', online:'Chuyên đề Online', benefits:'Quyền lợi học viên', founder:'Về cô Hương' };
+document.querySelectorAll('.sb-item').forEach(el => {
+  el.addEventListener('click', function() {
+    const id = this.dataset.panel;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    this.classList.add('active');
+    document.getElementById('panel-title').textContent = TITLES[id] || id;
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// LOAD ALL DATA
+// ═══════════════════════════════════════════════════
+let STATE = { config:{}, offlineCourses:[], offlineDays:[], offlineGroups:[], offlineItems:[], offlineBenefits:[], onlineCourses:[], onlineItems:[], benefits:[] };
+
+async function loadAll() {
+  setStatus('saving', 'Đang tải...');
+  showLoader(true);
+  try {
+    const [cfg, oc, od, og, oi, ob, onc, oni, ben] = await Promise.all([
+      sbGet('lp_config'),
+      sbGet('lp_offline_courses', 'order=sort_order'),
+      sbGet('lp_offline_days', 'order=day_number'),
+      sbGet('lp_offline_groups', 'order=sort_order'),
+      sbGet('lp_offline_items', 'order=sort_order'),
+      sbGet('lp_offline_benefits', 'order=sort_order'),
+      sbGet('lp_online_courses', 'order=sort_order'),
+      sbGet('lp_online_items', 'order=sort_order'),
+      sbGet('lp_benefits', 'order=sort_order'),
+    ]);
+
+    // Map config
+    const configMap = {};
+    cfg.forEach(c => configMap[c.key] = c.value);
+    STATE.config = configMap;
+    STATE.offlineCourses = oc;
+    STATE.offlineDays = od; STATE.offlineGroups = og; STATE.offlineItems = oi;
+    STATE.offlineBenefits = ob;
+    STATE.onlineCourses = onc; STATE.onlineItems = oni;
+    STATE.benefits = ben;
+
+    populateForms();
+    setStatus('saved', '✅ Đã kết nối');
+    document.getElementById('s-db').textContent = '✅ OK';
+    document.getElementById('s-offline').textContent = oc.filter(c=>c.active).length;
+    document.getElementById('s-online').textContent = onc.filter(c=>c.active).length;
+    document.getElementById('s-benefits').textContent = ben.filter(b=>b.active).length;
+  } catch(e) {
+    setStatus('dirty', '❌ Lỗi kết nối');
+    document.getElementById('s-db').textContent = '❌ Lỗi';
+    toast('Lỗi kết nối Supabase: ' + e.message, 'err');
+    console.error(e);
+  } finally { showLoader(false); }
+}
+
+function populateForms() {
+  const { config, offlineCourses, offlineDays, offlineGroups, offlineItems, offlineBenefits, onlineCourses, onlineItems, benefits } = STATE;
+
+  // Founder
+  setVal('f-years', config.founder_years || '');
+  setVal('f-branches', config.founder_branches || '');
+  setVal('f-title', config.founder_title || '');
+  setVal('f-bio', config.founder_bio || '');
+  setVal('f-hero', config.hero_subtitle || '');
+
+  // Offline courses
+  ['cotloi','az'].forEach(id => {
+    const c = offlineCourses.find(x => x.id === id);
+    if (!c) return;
+    const p = id === 'cotloi' ? 'cl' : 'az';
+    setVal(p+'-name', c.name);
+    setVal(p+'-price', c.price);
+    setVal(p+'-maxhv', c.max_students);
+    setVal(p+'-duration', c.duration || '');
+    setVal(p+'-badge', c.badge_text || '');
+    setVal(p+'-desc', c.description || '');
+    if (id === 'az') setVal('az-orig', c.orig_price || '');
+
+    // Benefits
+    const bens = offlineBenefits.filter(b => b.course_id === id);
+    renderBenefitItems(p, bens);
+  });
+
+  // Tag inputs for offline items
+  const dayAZ1 = offlineDays.find(d => d.course_id==='az' && d.day_number===1);
+  const dayAZ2 = offlineDays.find(d => d.course_id==='az' && d.day_number===2);
+
+  // AZ day 1
+  if (dayAZ1) {
+    const groups = offlineGroups.filter(g => g.day_id === dayAZ1.id);
+    const gTra = groups.find(g => g.title.includes('Trà nền') || g.title.includes('trái cây'));
+    const gSua = groups.find(g => g.title.includes('sữa'));
+    if (gTra) initTagWrap('az-tra-wrap', offlineItems.filter(i=>i.group_id===gTra.id).map(i=>i.name));
+    if (gSua) initTagWrap('az-sua-wrap', offlineItems.filter(i=>i.group_id===gSua.id).map(i=>i.name));
+  }
+  if (dayAZ2) {
+    const groups = offlineGroups.filter(g => g.day_id === dayAZ2.id);
+    const gTop = groups.find(g => g.title.toLowerCase().includes('topping'));
+    const gCf  = groups.find(g => g.title.toLowerCase().includes('đá xay') || g.title.toLowerCase().includes('cà phê'));
+    if (gTop) initTagWrap('az-top-wrap', offlineItems.filter(i=>i.group_id===gTop.id).map(i=>i.name));
+    if (gCf)  initTagWrap('az-cf-wrap',  offlineItems.filter(i=>i.group_id===gCf.id).map(i=>i.name));
+  }
+
+  // Cot loi day 1
+  const dayCL1 = offlineDays.find(d => d.course_id==='cotloi' && d.day_number===1);
+  if (dayCL1) {
+    const groups = offlineGroups.filter(g => g.day_id === dayCL1.id);
+    const gTra = groups.find(g => g.title.includes('Trà nền') || g.title.includes('trái cây'));
+    const gSua = groups.find(g => g.title.includes('sữa'));
+    if (gTra) initTagWrap('cl-tra-wrap', offlineItems.filter(i=>i.group_id===gTra.id).map(i=>i.name));
+    if (gSua) initTagWrap('cl-sua-wrap', offlineItems.filter(i=>i.group_id===gSua.id).map(i=>i.name));
+  }
+
+  // Online
+  renderOnlineCourses(onlineCourses, onlineItems);
+
+  // Global benefits
+  renderGlobalBenefits(benefits);
+}
+
+// ═══════════════════════════════════════════════════
+// TAG INPUT
+// ═══════════════════════════════════════════════════
+const tagState = {};
+function initTagWrap(wrId, items) {
+  tagState[wrId] = [...items];
+  renderTagWrap(wrId);
+}
+function renderTagWrap(wrId) {
+  const wrap = document.getElementById(wrId);
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  (tagState[wrId]||[]).forEach((t,i) => {
+    const pill = document.createElement('span');
+    pill.className = 'tag-pill';
+    pill.innerHTML = `${t}<button onclick="removeTag('${wrId}',${i})">×</button>`;
+    wrap.appendChild(pill);
+  });
+  const inp = document.createElement('input');
+  inp.className = 'tag-inp';
+  inp.placeholder = 'Nhập + Enter...';
+  inp.onkeydown = e => {
+    if (e.key === 'Enter' && inp.value.trim()) {
+      e.preventDefault();
+      tagState[wrId].push(inp.value.trim());
+      renderTagWrap(wrId);
+    }
+  };
+  wrap.appendChild(inp);
+}
+function removeTag(wrId, idx) {
+  tagState[wrId].splice(idx, 1);
+  renderTagWrap(wrId);
+}
+
+// ═══════════════════════════════════════════════════
+// BENEFIT ITEMS (per course)
+// ═══════════════════════════════════════════════════
+const benefitState = { cl:[], az:[] };
+function renderBenefitItems(prefix, items) {
+  benefitState[prefix] = items.map(b => b.text);
+  const list = document.getElementById(prefix+'-benefits-list');
+  list.innerHTML = '';
+  benefitState[prefix].forEach((txt, i) => {
+    const d = document.createElement('div');
+    d.className = 'list-item';
+    d.style.marginBottom = '8px';
+    d.innerHTML = `<button class="remove-btn" onclick="removeBenefitItem('${prefix}',${i})">Xóa</button>
+      <div class="field"><label>Quyền lợi ${i+1}</label><input type="text" value="${txt}" onchange="benefitState['${prefix}'][${i}]=this.value"></div>`;
+    list.appendChild(d);
+  });
+}
+function addBenefitItem(prefix) {
+  benefitState[prefix].push('');
+  renderBenefitItems(prefix, benefitState[prefix].map(t => ({text:t})));
+}
+function removeBenefitItem(prefix, i) {
+  benefitState[prefix].splice(i, 1);
+  renderBenefitItems(prefix, benefitState[prefix].map(t => ({text:t})));
+}
+
+// ═══════════════════════════════════════════════════
+// SAVE FUNCTIONS
+// ═══════════════════════════════════════════════════
+async function saveCotLoi() {
+  setStatus('saving', 'Đang lưu...');
+  showLoader(true);
+  try {
+    await sbUpsert('lp_offline_courses', {
+      id:'cotloi',
+      name: getVal('cl-name'),
+      price: +getVal('cl-price'),
+      max_students: +getVal('cl-maxhv'),
+      duration: getVal('cl-duration'),
+      badge_text: getVal('cl-badge'),
+      description: getVal('cl-desc'),
+      updated_at: new Date().toISOString()
+    });
+
+    // Quyền lợi: xóa cũ, insert mới
+    await sbDelete('lp_offline_benefits', 'course_id=eq.cotloi');
+    const bens = benefitState.cl.filter(Boolean).map((t,i) => ({ course_id:'cotloi', text:t, sort_order:i+1 }));
+    if (bens.length) await sbUpsert('lp_offline_benefits', bens);
+
+    // Nội dung món: xử lý days/groups/items cho cotloi
+    await saveOfflineItems('cotloi', [
+      { day_number:1, title:'Trà & Trà Sữa Nền', subtitle:'', groups:[
+        { title:'Trà nền + Trà trái cây', items: tagState['cl-tra-wrap']||[] },
+        { title:'Trà sữa', items: tagState['cl-sua-wrap']||[] },
+      ]}
+    ]);
+
+    setStatus('saved', '✅ Đã lưu');
+    toast('✅ Đã lưu Cốt Lõi Thực Chiến', 'ok');
+  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); }
+  finally { showLoader(false); }
+}
+
+async function saveAZ() {
+  setStatus('saving','Đang lưu...');
+  showLoader(true);
+  try {
+    await sbUpsert('lp_offline_courses', {
+      id:'az', name:getVal('az-name'),
+      price:+getVal('az-price'), orig_price:+getVal('az-orig'),
+      max_students:+getVal('az-maxhv'), duration:getVal('az-duration'),
+      badge_text:getVal('az-badge'), description:getVal('az-desc'),
+      updated_at: new Date().toISOString()
+    });
+
+    await sbDelete('lp_offline_benefits','course_id=eq.az');
+    const bens = benefitState.az.filter(Boolean).map((t,i) => ({ course_id:'az', text:t, sort_order:i+1 }));
+    if (bens.length) await sbUpsert('lp_offline_benefits', bens);
+
+    await saveOfflineItems('az', [
+      { day_number:1, title:'Trà & Trà Sữa Nền', subtitle:'', groups:[
+        { title:'Trà nền + Trà trái cây', items: tagState['az-tra-wrap']||[] },
+        { title:'Trà sữa', items: tagState['az-sua-wrap']||[] },
+      ]},
+      { day_number:2, title:'Topping, Đá Xay, Cà Phê & Matcha', subtitle:'', groups:[
+        { title:'Cách nấu topping', items: tagState['az-top-wrap']||[] },
+        { title:'Đá xay + Cà phê + Matcha', items: tagState['az-cf-wrap']||[] },
+      ]}
+    ]);
+
+    setStatus('saved','✅ Đã lưu');
+    toast('✅ Đã lưu Pha Chế Từ A–Z','ok');
+  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); }
+  finally { showLoader(false); }
+}
+
+async function saveOfflineItems(courseId, days) {
+  // Get existing day IDs for this course
+  const existingDays = await sbGet('lp_offline_days', `course_id=eq.${courseId}`);
+  const existingDayIds = existingDays.map(d => d.id);
+
+  // Delete existing groups and items via cascade
+  if (existingDayIds.length) {
+    const existingGroups = await sbGet('lp_offline_groups', `day_id=in.(${existingDayIds.join(',')})`);
+    const existingGroupIds = existingGroups.map(g => g.id);
+    if (existingGroupIds.length) {
+      await sbDelete('lp_offline_items', `group_id=in.(${existingGroupIds.join(',')})`);
+      await sbDelete('lp_offline_groups', `id=in.(${existingGroupIds.join(',')})`);
+    }
+    await sbDelete('lp_offline_days', `course_id=eq.${courseId}`);
+  }
+
+  // Re-insert
+  for (const day of days) {
+    const dayRes = await fetch(`${SB_URL}/rest/v1/lp_offline_days`, {
+      method:'POST',
+      headers: { 'apikey':SB_SVC,'Authorization':`Bearer ${SB_SVC}`,'Content-Type':'application/json','Prefer':'return=representation' },
+      body: JSON.stringify({ course_id:courseId, day_number:day.day_number, title:day.title, subtitle:day.subtitle||'' })
+    });
+    const [dayRow] = await dayRes.json();
+
+    for (const [gi, group] of day.groups.entries()) {
+      const grpRes = await fetch(`${SB_URL}/rest/v1/lp_offline_groups`, {
+        method:'POST',
+        headers: { 'apikey':SB_SVC,'Authorization':`Bearer ${SB_SVC}`,'Content-Type':'application/json','Prefer':'return=representation' },
+        body: JSON.stringify({ day_id:dayRow.id, title:group.title, sort_order:gi+1 })
+      });
+      const [grpRow] = await grpRes.json();
+
+      if (group.items.length) {
+        await sbUpsert('lp_offline_items', group.items.map((name,i) => ({ group_id:grpRow.id, name, sort_order:i+1 })));
+      }
+    }
+  }
+}
+
+async function saveFounder() {
+  setStatus('saving','Đang lưu...');
+  showLoader(true);
+  try {
+    const entries = [
+      { key:'founder_years',    value: getVal('f-years') },
+      { key:'founder_branches', value: getVal('f-branches') },
+      { key:'founder_title',    value: getVal('f-title') },
+      { key:'founder_bio',      value: getVal('f-bio') },
+      { key:'hero_subtitle',    value: getVal('f-hero') },
+    ];
+    await sbUpsert('lp_config', entries);
+    setStatus('saved','✅ Đã lưu');
+    toast('✅ Đã lưu thông tin cô Hương','ok');
+  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); }
+  finally { showLoader(false); }
+}
+
+// ═══════════════════════════════════════════════════
+// ONLINE COURSES
+// ═══════════════════════════════════════════════════
+let onlineCoursesData = [];
+function renderOnlineCourses(courses, items) {
+  onlineCoursesData = courses.map(c => ({
+    ...c,
+    _items: items.filter(i => i.course_id === c.id).map(i => i.name)
+  }));
+  rebuildOnlineList();
+}
+function rebuildOnlineList() {
+  const list = document.getElementById('online-list');
+  list.innerHTML = '';
+  onlineCoursesData.forEach((c, idx) => {
+    const wId = `oc-${idx}-wrap`;
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.style.marginBottom = '14px';
+    div.innerHTML = `
+      <div class="card-head">
+        <h2 style="font-size:.875rem">Chuyên đề ${idx+1}</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm ${c.active?'btn-secondary':'btn-danger'}" onclick="toggleOnline(${idx})">${c.active?'Đang hiển thị':'Đang ẩn'}</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteOnline(${idx})">Xóa</button>
+          <button class="btn btn-sm btn-primary" onclick="saveOnlineCourse(${idx})">💾 Lưu</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="grid-3">
+          <div class="field"><label>Tên chuyên đề</label><input type="text" value="${c.name}" onchange="onlineCoursesData[${idx}].name=this.value"></div>
+          <div class="field"><label>Học phí (VNĐ)</label><input type="number" value="${c.price}" onchange="onlineCoursesData[${idx}].price=+this.value"></div>
+          <div class="field"><label>Giá gốc</label><input type="number" value="${c.orig_price||''}" onchange="onlineCoursesData[${idx}].orig_price=+this.value"></div>
+        </div>
+        <div class="grid-3">
+          <div class="field"><label>% giảm giá</label><input type="number" value="${c.discount||''}" onchange="onlineCoursesData[${idx}].discount=+this.value"></div>
+          <div class="field"><label>Số công thức</label><input type="number" value="${c.item_count||''}" onchange="onlineCoursesData[${idx}].item_count=+this.value"></div>
+          <div class="field"><label>Badge</label><input type="text" value="${c.badge_text||''}" onchange="onlineCoursesData[${idx}].badge_text=this.value"></div>
+        </div>
+        <div class="field"><label>Các món học</label><div class="tag-wrap" id="${wId}" onclick="this.querySelector('.tag-inp').focus()"></div></div>
+      </div>
+    `;
+    list.appendChild(div);
+    initTagWrap(wId, c._items || []);
+  });
+}
+
+async function saveOnlineCourse(idx) {
+  const c = onlineCoursesData[idx];
+  const wId = `oc-${idx}-wrap`;
+  setStatus('saving','Đang lưu...'); showLoader(true);
+  try {
+    await sbUpsert('lp_online_courses', {
+      id: c.id, sort_order: idx+1, name: c.name,
+      price: c.price, orig_price: c.orig_price,
+      discount: c.discount, item_count: c.item_count,
+      badge_text: c.badge_text, active: c.active,
+      is_bundle: c.is_bundle||false,
+      updated_at: new Date().toISOString()
+    });
+    await sbDelete('lp_online_items', `course_id=eq.${c.id}`);
+    const items = (tagState[wId]||[]).map((name,i) => ({ course_id:c.id, name, sort_order:i+1 }));
+    if (items.length) await sbUpsert('lp_online_items', items);
+    setStatus('saved','✅ Đã lưu');
+    toast(`✅ Đã lưu ${c.name}`,'ok');
+  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); }
+  finally { showLoader(false); }
+}
+
+function toggleOnline(idx) {
+  onlineCoursesData[idx].active = !onlineCoursesData[idx].active;
+  rebuildOnlineList();
+}
+
+async function deleteOnline(idx) {
+  const c = onlineCoursesData[idx];
+  if (!confirm(`Xóa chuyên đề "${c.name}"?\nThao tác này không thể hoàn tác.`)) return;
+  showLoader(true);
+  try {
+    await sbDelete('lp_online_items', `course_id=eq.${c.id}`);
+    await sbDelete('lp_online_courses', `id=eq.${c.id}`);
+    onlineCoursesData.splice(idx, 1);
+    rebuildOnlineList();
+    toast('✅ Đã xóa chuyên đề','ok');
+  } catch(e) { toast('Lỗi: '+e.message,'err'); }
+  finally { showLoader(false); }
+}
+
+function addOnlineCourse() {
+  const newId = 'course_' + Date.now();
+  onlineCoursesData.push({ id:newId, sort_order:onlineCoursesData.length+1, name:'Chuyên đề mới', price:1000000, orig_price:1200000, discount:17, item_count:5, badge_text:'-17%', active:true, is_bundle:false, _items:[] });
+  rebuildOnlineList();
+  document.getElementById('online-list').lastElementChild.scrollIntoView({ behavior:'smooth' });
+}
+
+// ═══════════════════════════════════════════════════
+// GLOBAL BENEFITS
+// ═══════════════════════════════════════════════════
+let globalBenState = [];
+function renderGlobalBenefits(items) {
+  globalBenState = items.map(b => ({...b}));
+  rebuildGlobalBenefits();
+}
+function rebuildGlobalBenefits() {
+  const list = document.getElementById('global-benefits-list');
+  list.innerHTML = '';
+  globalBenState.forEach((b, i) => {
+    const div = document.createElement('div');
+    div.className = 'list-item';
+    div.innerHTML = `
+      <button class="remove-btn" onclick="removeGlobalBenefit(${i})">Xóa</button>
+      <div class="grid-2">
+        <div class="field"><label>Tiêu đề</label><input type="text" value="${b.title||''}" onchange="globalBenState[${i}].title=this.value"></div>
+        <div class="field"><label>Icon (emoji)</label><input type="text" value="${b.icon_svg||''}" style="max-width:100px" onchange="globalBenState[${i}].icon_svg=this.value"></div>
+      </div>
+      <div class="field"><label>Mô tả</label><textarea onchange="globalBenState[${i}].description=this.value">${b.description||''}</textarea></div>
+    `;
+    list.appendChild(div);
+  });
+}
+function addGlobalBenefit() {
+  globalBenState.push({ title:'Quyền lợi mới', description:'', icon_svg:'⭐', active:true });
+  rebuildGlobalBenefits();
+}
+function removeGlobalBenefit(i) {
+  globalBenState.splice(i, 1);
+  rebuildGlobalBenefits();
+}
+async function saveGlobalBenefits() {
+  setStatus('saving','Đang lưu...'); showLoader(true);
+  try {
+    await sbDelete('lp_benefits', 'id=gte.0');
+    const rows = globalBenState.map((b,i) => ({ sort_order:i+1, title:b.title, description:b.description, icon_svg:b.icon_svg||'', active:b.active!==false }));
+    if (rows.length) await sbUpsert('lp_benefits', rows);
+    setStatus('saved','✅ Đã lưu');
+    toast('✅ Đã lưu quyền lợi học viên','ok');
+  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); }
+  finally { showLoader(false); }
+}
+
+// ═══════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════
+function getVal(id) { return (document.getElementById(id)||{}).value || ''; }
+function setVal(id, v) { const el = document.getElementById(id); if(el) el.value = v; }
+function setStatus(type, txt) {
+  const el = document.getElementById('status-badge');
+  el.className = 'status-badge ' + type;
+  el.textContent = txt;
+}
+function showLoader(v) { document.getElementById('loader').style.display = v ? 'flex' : 'none'; }
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
