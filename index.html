@@ -6,6 +6,11 @@
 <title>Trương Dáng Hương Academy — Học Viện Pha Chế F&B</title>
 
 <!-- Tailwind CSS (CDN) -->
+<script>
+  // Suppress Tailwind CDN warning — acceptable for static GitHub Pages deployment
+  const _warn = console.warn.bind(console);
+  console.warn = (...args) => { if(String(args[0]).includes('cdn.tailwindcss.com')) return; _warn(...args); };
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!-- FontAwesome icons -->
@@ -161,7 +166,7 @@
         <span class="text-[var(--terracotta)]">ACADEMY</span>
       </h1>
 
-      <p class="mt-5 text-xl text-[var(--espresso-soft)] max-w-md">
+      <p id="sb-hero-subtitle" class="mt-5 text-xl text-[var(--espresso-soft)] max-w-md">
         Học pha chế từ người đã trực tiếp đứng quán mở chuỗi — không phải từ giáo trình chép lại trên mạng.
       </p>
 
@@ -173,7 +178,7 @@
         <div>
           <p class="font-bold">Cô Trương Dáng Hương</p>
           <p class="text-sm text-[var(--espresso-soft)]">Nhà sáng lập chuỗi trà sữa Hoa Hướng Dương</p>
-          <p class="font-mono text-[11px] tracking-wider text-[var(--terracotta)] mt-1 font-bold">19 NĂM KINH NGHIỆM THỰC CHIẾN</p>
+          <p id="sb-hero-exp" class="font-mono text-[11px] tracking-wider text-[var(--terracotta)] mt-1 font-bold">19 NĂM KINH NGHIỆM THỰC CHIẾN</p>
         </div>
       </div>
 
@@ -379,8 +384,8 @@
 
         <ul class="mt-5 space-y-2.5 text-sm border-t border-dashed border-[var(--line)] pt-5">
           <li class="flex gap-2.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 text-[var(--terracotta)] flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg><span>Lớp học trực tiếp tại TP.HCM, lộ trình 2 ngày</span></li>
-          <li class="flex gap-2.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 text-[var(--terracotta)] flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg><span>Tối đa <strong>3 học viên / lớp</strong> — kèm cô 1:1 sát sao hơn</span></li>
-          <li class="flex gap-2.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 text-[var(--terracotta)] flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg><span>Tặng sách công thức (bản cứng &amp; bản mềm)</span></li>
+          <li class="flex gap-2.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 text-[var(--terracotta)] flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg><span>Tối đa <strong>3 học viên / lớp</strong></span></li>
+          <li class="flex gap-2.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 text-[var(--terracotta)] flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg><span>Tặng file mềm công thức sau khoá</span></li>
           <li class="flex gap-2.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 text-[var(--terracotta)] flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg><span>Tặng quy trình – checklist vận hành quán</span></li>
         </ul>
 
@@ -720,19 +725,19 @@
       <div>
         <span class="font-mono text-xs tracking-[0.25em] uppercase text-[var(--honey-deep)]">Giảng viên</span>
         <h2 class="font-extrabold text-3xl md:text-4xl mt-3 tracking-tight">Cô Trương Dáng Hương</h2>
-        <p class="text-[var(--honey-deep)] font-semibold mt-1">Founder trà sữa Hoa Hướng Dương · Chuyên gia F&B</p>
+        <p id="sb-founder-title" class="text-[var(--honey-deep)] font-semibold mt-1">Founder trà sữa Hoa Hướng Dương · Chuyên gia F&B</p>
 
-        <p class="text-[var(--espresso-soft)] mt-5 leading-relaxed">
+        <p id="sb-founder-bio" class="text-[var(--espresso-soft)] mt-5 leading-relaxed">
           Học từ người đi trước là cách ngắn nhất để tiếp thu cả thành công lẫn bài học từ thất bại. Với hơn <strong class="text-[var(--espresso)]">19 năm kinh nghiệm thực chiến</strong> — trải qua đủ thăng trầm, vấp ngã và vinh quang — cô mong muốn mang đến cho các bạn những kiến thức thực tế, những trải nghiệm xương máu chứ không phải lý thuyết suông trên sách vở.
         </p>
 
         <div class="mt-7 grid grid-cols-2 gap-4">
           <div class="ticket p-5 text-center">
-            <p class="font-black text-3xl text-[var(--honey-deep)]">40</p>
+            <p id="sb-founder-branches" class="font-black text-3xl text-[var(--honey-deep)]">40</p>
             <p class="text-sm text-[var(--espresso-soft)] mt-1">Chi nhánh<br>đã vận hành</p>
           </div>
           <div class="ticket p-5 text-center">
-            <p class="font-black text-3xl text-[var(--honey-deep)]">19+</p>
+            <p id="sb-founder-years" class="font-black text-3xl text-[var(--honey-deep)]">19+</p>
             <p class="text-sm text-[var(--espresso-soft)] mt-1">Năm kinh nghiệm<br>ngành F&B</p>
           </div>
         </div>
@@ -892,7 +897,7 @@
         </div>
         <div>
           <label class="field-label" for="course">Khóa học quan tâm</label>
-          <select class="input-field" id="course" name="course">
+          <select class="input-field" id="course-select" name="course">
             <option>Khóa Offline – Pha Chế Từ A-Z (2 ngày · 7.000.000đ)</option>
           <option>Khóa Offline – Cốt Lõi Thực Chiến (1 ngày · 4.000.000đ)</option>
             <option>Online – Chuyên đề Trà Sữa</option>
@@ -1006,6 +1011,225 @@
     form.classList.add('hidden');
     success.classList.remove('hidden');
   });
+</script>
+
+<!-- ============================================================ -->
+<!-- SUPABASE LIVE DATA — cập nhật nội dung từ database         -->
+<!-- ============================================================ -->
+<script>
+(async function() {
+  const SB_URL  = 'https://rigfhkfjllkwbiurplqy.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZ2Zoa2ZqbGxrd2JpdXJwbHF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMjk3MjksImV4cCI6MjEwMDkwNTcyOX0.vyf-s6VJriVFOnRL_V0jIpGZKkuJwx2czSR76FupTzc';
+
+  const HEADERS = { 'apikey': SB_ANON, 'Authorization': `Bearer ${SB_ANON}` };
+
+  async function get(table, query='') {
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/${table}?${query}`, { headers: HEADERS });
+      if (!r.ok) return [];
+      return r.json();
+    } catch { return []; }
+  }
+
+  const CHECK_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:0.85em;height:0.85em;flex-shrink:0;opacity:0.75"><path d="M20 6 9 17l-5-5"/></svg>`;
+  const CHECK_LI  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 text-[var(--terracotta)] flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg>`;
+
+  function fmt(n) { return Number(n).toLocaleString('vi-VN') + 'đ'; }
+  function pct(price, orig) { return orig ? Math.round((1 - price/orig)*100) : 0; }
+
+  // ── Fetch all in parallel ─────────────────────────────────
+  const [configs, courses, days, groups, items, courseBenefits, globalBenefits] = await Promise.all([
+    get('lp_config'),
+    get('lp_offline_courses', 'order=sort_order&active=eq.true'),
+    get('lp_offline_days',    'order=day_number'),
+    get('lp_offline_groups',  'order=sort_order'),
+    get('lp_offline_items',   'order=sort_order'),
+    get('lp_offline_benefits','order=sort_order'),
+    get('lp_benefits',        'order=sort_order&active=eq.true'),
+  ]);
+
+  if (!configs.length && !courses.length) return; // DB chưa có data, dùng HTML tĩnh
+
+  const cfg = {};
+  configs.forEach(c => cfg[c.key] = c.value);
+
+  // ── 1. Config — Founder & Hero ────────────────────────────
+  if (cfg.hero_subtitle) {
+    const el = document.getElementById('sb-hero-subtitle');
+    if (el) el.textContent = cfg.hero_subtitle;
+  }
+  if (cfg.founder_years) {
+    const elExp = document.getElementById('sb-hero-exp');
+    if (elExp) elExp.textContent = cfg.founder_years + ' NĂM KINH NGHIỆM THỰC CHIẾN';
+    const elYears = document.getElementById('sb-founder-years');
+    if (elYears) elYears.textContent = cfg.founder_years + '+';
+  }
+  if (cfg.founder_branches) {
+    const el = document.getElementById('sb-founder-branches');
+    if (el) el.textContent = cfg.founder_branches;
+  }
+  if (cfg.founder_title) {
+    const el = document.getElementById('sb-founder-title');
+    if (el) el.textContent = cfg.founder_title;
+  }
+  if (cfg.founder_bio) {
+    const el = document.getElementById('sb-founder-bio');
+    if (el) el.innerHTML = cfg.founder_bio.replace(
+      /(\d+ năm kinh nghiệm[\w\s]*)/gi,
+      '<strong class="text-[var(--espresso)]">$1</strong>'
+    );
+  }
+
+  // ── 2. Global Benefits section ────────────────────────────
+  if (globalBenefits.length) {
+    const BENEFIT_ICONS = [
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>`,
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+    ];
+    const benSection = document.querySelector('#benefits .mt-10.grid');
+    if (benSection) {
+      benSection.innerHTML = globalBenefits.map((b, i) => {
+        const isLast = i === globalBenefits.length - 1;
+        const icon = BENEFIT_ICONS[i % BENEFIT_ICONS.length];
+        if (isLast && globalBenefits.length > 1) {
+          return `<div class="ticket p-6 sm:col-span-2 lg:col-span-3">
+            <div class="flex flex-col sm:flex-row gap-5 items-start">
+              <div class="w-11 h-11 rounded-full bg-[var(--honey)] flex items-center justify-center text-white shadow-md shadow-orange-900/15 flex-shrink-0">${icon}</div>
+              <div><h3 class="font-bold text-lg">${b.title}</h3><p class="text-sm text-[var(--espresso-soft)] mt-2">${b.description||''}</p></div>
+            </div></div>`;
+        }
+        return `<div class="ticket p-6">
+          <div class="w-11 h-11 rounded-full bg-[var(--honey)] flex items-center justify-center text-white shadow-md shadow-orange-900/15 flex-shrink-0">${icon}</div>
+          <h3 class="font-bold text-lg mt-4">${b.title}</h3>
+          <p class="text-sm text-[var(--espresso-soft)] mt-2">${b.description||''}</p>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // ── 3. Offline courses — rebuild sections ─────────────────
+  if (!courses.length) return;
+
+  // Build lookup maps
+  const daysByCourse = {};
+  days.forEach(d => { (daysByCourse[d.course_id] = daysByCourse[d.course_id]||[]).push(d); });
+  const groupsByDay = {};
+  groups.forEach(g => { (groupsByDay[g.day_id] = groupsByDay[g.day_id]||[]).push(g); });
+  const itemsByGroup = {};
+  items.forEach(i => { (itemsByGroup[i.group_id] = itemsByGroup[i.group_id]||[]).push(i); });
+  const benefitsByCourse = {};
+  courseBenefits.forEach(b => { (benefitsByCourse[b.course_id] = benefitsByCourse[b.course_id]||[]).push(b); });
+
+  function chipHtml(name) {
+    return `<span class="chip">${CHECK_SVG} ${name}</span>`;
+  }
+
+  function renderDays(courseId) {
+    const courseDays = (daysByCourse[courseId]||[]).sort((a,b)=>a.day_number-b.day_number);
+    return courseDays.map(d => {
+      const courseGroups = (groupsByDay[d.id]||[]).sort((a,b)=>a.sort_order-b.sort_order);
+      const groupsHtml = courseGroups.map(g => {
+        const gItems = (itemsByGroup[g.id]||[]).sort((a,b)=>a.sort_order-b.sort_order);
+        return `<div>
+          <p class="font-mono text-xs tracking-[0.2em] uppercase text-[var(--honey-deep)] mb-2.5">${g.title}</p>
+          <div class="flex flex-wrap gap-2">${gItems.map(i=>chipHtml(i.name)).join('')}</div>
+        </div>`;
+      }).join('');
+      const colsClass = courseGroups.length > 1 ? 'grid sm:grid-cols-2 gap-5' : '';
+      return `<div class="ticket p-6">
+        <div class="flex flex-col sm:flex-row gap-5 sm:items-start">
+          <div class="font-accent text-3xl sm:text-4xl text-[var(--honey-deep)] sm:w-24 flex-shrink-0">Ngày ${d.day_number}</div>
+          <div class="flex-1">
+            <h3 class="font-bold text-lg">${d.title}</h3>
+            ${d.subtitle ? `<p class="text-sm text-[var(--espresso-soft)] mt-1">${d.subtitle}</p>` : ''}
+            ${courseGroups.length ? `<div class="mt-5 ${colsClass} border-t border-dashed border-[var(--line)] pt-5">${groupsHtml}</div>` : ''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderBenefitsList(courseId) {
+    const bens = benefitsByCourse[courseId]||[];
+    return bens.map(b => `<li class="flex gap-2.5">${CHECK_LI}<span>${b.text}</span></li>`).join('');
+  }
+
+  function courseSection(c) {
+    const discount = c.orig_price ? pct(c.price, c.orig_price) : 0;
+    const badge = c.badge_text || (discount ? `TIẾT KIỆM ${discount}%` : '');
+    const priceHtml = c.orig_price
+      ? `<span class="font-black text-4xl text-[var(--terracotta)]">${fmt(c.price)}</span>
+         <span class="font-mono text-sm text-[var(--espresso-soft)]"><s>${fmt(c.orig_price)}</s></span>`
+      : `<span class="font-black text-4xl text-[var(--terracotta)]">${fmt(c.price)}</span>`;
+
+    return `
+    <section id="${c.id}" class="py-16 md:py-24" style="background:linear-gradient(180deg,#FFF8EE 0%,#FFFFFF 100%)">
+      <div class="max-w-6xl mx-auto px-5 md:px-8">
+        <div class="max-w-2xl">
+          <span class="font-mono text-xs tracking-[0.25em] uppercase text-[var(--honey-deep)]">Khóa học offline · TP.HCM</span>
+          <h2 class="font-extrabold text-3xl md:text-4xl mt-3 tracking-tight">${c.name}</h2>
+          ${c.description ? `<p class="text-[var(--espresso-soft)] mt-3">${c.description}</p>` : ''}
+        </div>
+        <div class="mt-10 grid lg:grid-cols-[400px_1fr] gap-8">
+          <div class="ticket p-7" style="background:var(--paper)">
+            <p class="font-mono text-xs tracking-[0.3em] text-[var(--espresso-soft)]">VÉ THAM GIA KHÓA HỌC</p>
+            <div class="mt-3 flex items-baseline gap-3 flex-wrap">${priceHtml}</div>
+            ${badge ? `<span class="inline-flex mt-2 font-mono text-xs bg-[var(--honey)] text-white px-2.5 py-1 rounded-full font-bold">${badge}</span>` : ''}
+            <ul class="mt-5 space-y-2.5 text-sm border-t border-dashed border-[var(--line)] pt-5">
+              <li class="flex gap-2.5">${CHECK_LI}<span>Lớp học trực tiếp tại TP.HCM${c.duration ? ', lộ trình <strong>' + c.duration + '</strong>' : ''}</span></li>
+              <li class="flex gap-2.5">${CHECK_LI}<span>Tối đa <strong>${c.max_students} học viên / lớp</strong></span></li>
+              ${renderBenefitsList(c.id)}
+            </ul>
+            <a href="#contact" class="btn-primary mt-6 w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full">
+              Giữ chỗ ngay <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 inline-block"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <p class="text-center text-xs text-[var(--espresso-soft)] mt-3">Số lượng lớp có hạn — đăng ký sớm để giữ suất.</p>
+          </div>
+          <div class="space-y-5">
+            ${renderDays(c.id)}
+          </div>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  // Find the anchor points and replace the two offline sections
+  const cotloiSection = document.getElementById('cotloi');
+  const offlineSection = document.getElementById('offline');
+
+  if (cotloiSection && offlineSection) {
+    // Create a wrapper to hold new content
+    const wrapper = document.createElement('div');
+    wrapper.id = 'sb-offline-wrapper';
+    courses.forEach(c => { wrapper.innerHTML += courseSection(c); });
+
+    // Replace both sections with the dynamic wrapper
+    cotloiSection.parentNode.insertBefore(wrapper, cotloiSection);
+    cotloiSection.remove();
+    offlineSection.remove();
+  }
+
+  // ── 4. Update contact form dropdown ──────────────────────
+  const courseSelect = document.getElementById('course-select');
+  if (courseSelect) {
+    const onlineCourseNames = [
+      'Khóa Online – Chuyên đề Trà Sữa',
+      'Khóa Online – Chuyên đề Cà Phê',
+      'Khóa Online – Chuyên đề Kem',
+      'Khóa Online – Lục Trà & Hồng Trà',
+      'Khóa Online – Chuyên đề Topping',
+      'Khóa Online – Gói Tổng Hợp',
+    ];
+    const offlineOptions = courses.map(c =>
+      `<option>Khóa Offline – ${c.name} (${c.duration || ''} · ${fmt(c.price)})</option>`
+    ).join('');
+    const onlineOptions = onlineCourseNames.map(n => `<option>${n}</option>`).join('');
+    courseSelect.innerHTML = `<option value="">— Chọn khóa học —</option>${offlineOptions}${onlineOptions}`;
+  }
+
+})();
 </script>
 
 </body>
