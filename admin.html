@@ -165,11 +165,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
       </div>
       <div class="sb-section">Khóa Offline</div>
-      <div class="sb-item" data-panel="cotloi">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>Cốt Lõi Thực Chiến
-      </div>
-      <div class="sb-item" data-panel="az">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Pha Chế Từ A–Z
+      <div class="sb-item" data-panel="offline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Quản lý lớp offline
       </div>
       <div class="sb-section">Khóa Online</div>
       <div class="sb-item" data-panel="online">
@@ -235,79 +232,11 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
         </div>
       </div>
 
-      <!-- CỐT LÕI -->
-      <div class="panel" id="panel-cotloi">
-        <div class="card">
-          <div class="card-head"><h2>Lớp Cốt Lõi Thực Chiến</h2><span class="card-tag">Offline · 1 ngày</span></div>
-          <div class="card-body">
-            <div class="grid-3">
-              <div class="field"><label>Tên lớp</label><input id="cl-name" type="text"></div>
-              <div class="field"><label>Học phí <span class="hint">(VNĐ)</span></label><input id="cl-price" type="number"></div>
-              <div class="field"><label>Số HV tối đa</label><input id="cl-maxhv" type="number" min="1"></div>
-            </div>
-            <div class="grid-2">
-              <div class="field"><label>Thời gian học</label><input id="cl-duration" type="text"></div>
-              <div class="field"><label>Badge hiển thị</label><input id="cl-badge" type="text"></div>
-            </div>
-            <div class="grid-1">
-              <div class="field"><label>Mô tả ngắn</label><textarea id="cl-desc"></textarea></div>
-            </div>
-            <hr class="divider">
-            <div class="section-label">Quyền lợi đi kèm</div>
-            <div id="cl-benefits-list"></div>
-            <button class="add-btn" onclick="addBenefitItem('cl')">+ Thêm quyền lợi</button>
-            <hr class="divider">
-            <div class="section-label">Nội dung giảng dạy</div>
-            <div class="grid-2">
-              <div class="field"><label>Trà nền + Trà trái cây</label><div class="tag-wrap" id="cl-tra-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
-              <div class="field"><label>Trà sữa</label><div class="tag-wrap" id="cl-sua-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
-            </div>
-            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
-              <button class="btn btn-primary" onclick="saveCotLoi()">💾 Lưu thay đổi</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- A-Z -->
-      <div class="panel" id="panel-az">
-        <div class="card">
-          <div class="card-head"><h2>Lớp Pha Chế Từ A–Z</h2><span class="card-tag">Offline · 2 ngày</span></div>
-          <div class="card-body">
-            <div class="grid-3">
-              <div class="field"><label>Tên lớp</label><input id="az-name" type="text"></div>
-              <div class="field"><label>Học phí <span class="hint">(VNĐ)</span></label><input id="az-price" type="number"></div>
-              <div class="field"><label>Giá gốc <span class="hint">(gạch ngang)</span></label><input id="az-orig" type="number"></div>
-            </div>
-            <div class="grid-3">
-              <div class="field"><label>Số HV tối đa</label><input id="az-maxhv" type="number" min="1"></div>
-              <div class="field"><label>Thời gian học</label><input id="az-duration" type="text"></div>
-              <div class="field"><label>Badge hiển thị</label><input id="az-badge" type="text"></div>
-            </div>
-            <div class="grid-1">
-              <div class="field"><label>Mô tả ngắn</label><textarea id="az-desc"></textarea></div>
-            </div>
-            <hr class="divider">
-            <div class="section-label">Quyền lợi đi kèm</div>
-            <div id="az-benefits-list"></div>
-            <button class="add-btn" onclick="addBenefitItem('az')">+ Thêm quyền lợi</button>
-            <hr class="divider">
-            <div class="section-label">Ngày 1 — Trà & Trà Sữa</div>
-            <div class="grid-2">
-              <div class="field"><label>Trà nền + Trà trái cây</label><div class="tag-wrap" id="az-tra-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
-              <div class="field"><label>Trà sữa</label><div class="tag-wrap" id="az-sua-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
-            </div>
-            <hr class="divider">
-            <div class="section-label">Ngày 2 — Topping, Đá Xay, Cà Phê, Matcha</div>
-            <div class="grid-2">
-              <div class="field"><label>Cách nấu topping</label><div class="tag-wrap" id="az-top-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
-              <div class="field"><label>Đá xay + Cà phê + Matcha</label><div class="tag-wrap" id="az-cf-wrap" onclick="this.querySelector('.tag-inp').focus()"></div></div>
-            </div>
-            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
-              <button class="btn btn-primary" onclick="saveAZ()">💾 Lưu thay đổi</button>
-            </div>
-          </div>
-        </div>
+      <!-- OFFLINE DYNAMIC -->
+      <div class="panel" id="panel-offline">
+        <div class="info-box">Thêm / bớt / sửa lớp offline. Mỗi lớp có thể có nhiều ngày học, mỗi ngày có nhiều nhóm món.</div>
+        <div id="offline-list"></div>
+        <button class="add-btn" onclick="addOfflineCourse()">+ Thêm lớp offline mới</button>
       </div>
 
       <!-- ONLINE -->
@@ -444,7 +373,7 @@ document.getElementById('pwd').addEventListener('keydown', e => { if(e.key==='En
 // ═══════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════
-const TITLES = { dashboard:'Dashboard', cotloi:'Cốt Lõi Thực Chiến', az:'Pha Chế Từ A–Z', online:'Chuyên đề Online', benefits:'Quyền lợi học viên', founder:'Về cô Hương' };
+const TITLES = { dashboard:'Dashboard', offline:'Quản lý lớp Offline', online:'Chuyên đề Online', benefits:'Quyền lợi học viên', founder:'Về cô Hương' };
 document.querySelectorAll('.sb-item').forEach(el => {
   el.addEventListener('click', function() {
     const id = this.dataset.panel;
@@ -502,7 +431,7 @@ async function loadAll() {
 }
 
 function populateForms() {
-  const { config, offlineCourses, offlineDays, offlineGroups, offlineItems, offlineBenefits, onlineCourses, onlineItems, benefits } = STATE;
+  const { config } = STATE;
 
   // Founder
   setVal('f-years', config.founder_years || '');
@@ -511,59 +440,14 @@ function populateForms() {
   setVal('f-bio', config.founder_bio || '');
   setVal('f-hero', config.hero_subtitle || '');
 
-  // Offline courses
-  ['cotloi','az'].forEach(id => {
-    const c = offlineCourses.find(x => x.id === id);
-    if (!c) return;
-    const p = id === 'cotloi' ? 'cl' : 'az';
-    setVal(p+'-name', c.name);
-    setVal(p+'-price', c.price);
-    setVal(p+'-maxhv', c.max_students);
-    setVal(p+'-duration', c.duration || '');
-    setVal(p+'-badge', c.badge_text || '');
-    setVal(p+'-desc', c.description || '');
-    if (id === 'az') setVal('az-orig', c.orig_price || '');
-
-    // Benefits
-    const bens = offlineBenefits.filter(b => b.course_id === id);
-    renderBenefitItems(p, bens);
-  });
-
-  // Tag inputs for offline items
-  const dayAZ1 = offlineDays.find(d => d.course_id==='az' && d.day_number===1);
-  const dayAZ2 = offlineDays.find(d => d.course_id==='az' && d.day_number===2);
-
-  // AZ day 1
-  if (dayAZ1) {
-    const groups = offlineGroups.filter(g => g.day_id === dayAZ1.id);
-    const gTra = groups.find(g => g.title.includes('Trà nền') || g.title.includes('trái cây'));
-    const gSua = groups.find(g => g.title.includes('sữa'));
-    if (gTra) initTagWrap('az-tra-wrap', offlineItems.filter(i=>i.group_id===gTra.id).map(i=>i.name));
-    if (gSua) initTagWrap('az-sua-wrap', offlineItems.filter(i=>i.group_id===gSua.id).map(i=>i.name));
-  }
-  if (dayAZ2) {
-    const groups = offlineGroups.filter(g => g.day_id === dayAZ2.id);
-    const gTop = groups.find(g => g.title.toLowerCase().includes('topping'));
-    const gCf  = groups.find(g => g.title.toLowerCase().includes('đá xay') || g.title.toLowerCase().includes('cà phê'));
-    if (gTop) initTagWrap('az-top-wrap', offlineItems.filter(i=>i.group_id===gTop.id).map(i=>i.name));
-    if (gCf)  initTagWrap('az-cf-wrap',  offlineItems.filter(i=>i.group_id===gCf.id).map(i=>i.name));
-  }
-
-  // Cot loi day 1
-  const dayCL1 = offlineDays.find(d => d.course_id==='cotloi' && d.day_number===1);
-  if (dayCL1) {
-    const groups = offlineGroups.filter(g => g.day_id === dayCL1.id);
-    const gTra = groups.find(g => g.title.includes('Trà nền') || g.title.includes('trái cây'));
-    const gSua = groups.find(g => g.title.includes('sữa'));
-    if (gTra) initTagWrap('cl-tra-wrap', offlineItems.filter(i=>i.group_id===gTra.id).map(i=>i.name));
-    if (gSua) initTagWrap('cl-sua-wrap', offlineItems.filter(i=>i.group_id===gSua.id).map(i=>i.name));
-  }
+  // Offline (dynamic)
+  populateOffline();
 
   // Online
-  renderOnlineCourses(onlineCourses, onlineItems);
+  renderOnlineCourses(STATE.onlineCourses, STATE.onlineItems);
 
   // Global benefits
-  renderGlobalBenefits(benefits);
+  renderGlobalBenefits(STATE.benefits);
 }
 
 // ═══════════════════════════════════════════════════
@@ -602,139 +486,301 @@ function removeTag(wrId, idx) {
 }
 
 // ═══════════════════════════════════════════════════
-// BENEFIT ITEMS (per course)
+// OFFLINE DYNAMIC ENGINE
 // ═══════════════════════════════════════════════════
-const benefitState = { cl:[], az:[] };
-function renderBenefitItems(prefix, items) {
-  benefitState[prefix] = items.map(b => b.text);
-  const list = document.getElementById(prefix+'-benefits-list');
+
+// offlineData: array of course objects built from STATE
+// Each course: { id, name, price, orig_price, max_students, duration, badge_text, description, active, sort_order,
+//   _benefits: [string],
+//   _days: [{ id(db)|null, day_number, title, subtitle, _groups:[{ id|null, title, _items:[string] }] }]
+// }
+let offlineData = [];
+
+function buildOfflineData() {
+  const { offlineCourses, offlineDays, offlineGroups, offlineItems, offlineBenefits } = STATE;
+  offlineData = offlineCourses.map(c => ({
+    ...c,
+    _benefits: offlineBenefits.filter(b => b.course_id === c.id).sort((a,b)=>a.sort_order-b.sort_order).map(b=>b.text),
+    _days: offlineDays.filter(d => d.course_id === c.id).sort((a,b)=>a.day_number-b.day_number).map(d => ({
+      _dbId: d.id,
+      day_number: d.day_number,
+      title: d.title,
+      subtitle: d.subtitle||'',
+      _groups: offlineGroups.filter(g=>g.day_id===d.id).sort((a,b)=>a.sort_order-b.sort_order).map(g=>({
+        _dbId: g.id,
+        title: g.title,
+        _items: offlineItems.filter(i=>i.group_id===g.id).sort((a,b)=>a.sort_order-b.sort_order).map(i=>i.name)
+      }))
+    }))
+  }));
+}
+
+function renderOfflineList() {
+  const list = document.getElementById('offline-list');
   list.innerHTML = '';
-  benefitState[prefix].forEach((txt, i) => {
-    const d = document.createElement('div');
-    d.className = 'list-item';
-    d.style.marginBottom = '8px';
-    d.innerHTML = `<button class="remove-btn" onclick="removeBenefitItem('${prefix}',${i})">Xóa</button>
-      <div class="field"><label>Quyền lợi ${i+1}</label><input type="text" value="${txt}" onchange="benefitState['${prefix}'][${i}]=this.value"></div>`;
-    list.appendChild(d);
+  offlineData.forEach((c, ci) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.marginBottom = '18px';
+
+    // Days HTML
+    const daysHtml = c._days.map((d, di) => `
+      <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;background:#FAFAFA">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--soft)">Ngày ${d.day_number}</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm btn-secondary" onclick="addGroup(${ci},${di})">+ Thêm nhóm môn</button>
+            <button class="btn btn-sm btn-danger" onclick="removeDay(${ci},${di})">Xóa ngày</button>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom:10px">
+          <div class="field"><label>Tiêu đề ngày</label><input type="text" value="${d.title}" onchange="offlineData[${ci}]._days[${di}].title=this.value"></div>
+          <div class="field"><label>Mô tả ngắn</label><input type="text" value="${d.subtitle}" onchange="offlineData[${ci}]._days[${di}].subtitle=this.value"></div>
+        </div>
+        <div id="groups-${ci}-${di}">
+          ${d._groups.map((g, gi) => groupHtml(ci, di, gi, g)).join('')}
+        </div>
+      </div>
+    `).join('');
+
+    // Benefits HTML
+    const bensHtml = c._benefits.map((b,bi) => `
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:7px">
+        <input type="text" value="${b}" style="flex:1;border:1.5px solid var(--border);border-radius:7px;padding:7px 10px;font-size:.875rem;outline:none"
+          onchange="offlineData[${ci}]._benefits[${bi}]=this.value"
+          onfocus="this.style.borderColor='var(--honey)'" onblur="this.style.borderColor='var(--border)'">
+        <button class="btn btn-sm btn-danger" onclick="removeCourseBenefit(${ci},${bi})">Xóa</button>
+      </div>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="card-head">
+        <h2 style="font-size:.9375rem">${c.name || 'Lớp mới'}</h2>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn-sm ${c.active!==false?'btn-secondary':'btn-danger'}" onclick="toggleOffline(${ci})">
+            ${c.active!==false?'✅ Đang hiển thị':'⛔ Đang ẩn'}
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="deleteOfflineCourse(${ci})">🗑 Xóa lớp</button>
+          <button class="btn btn-sm btn-primary" onclick="saveOfflineCourse(${ci})">💾 Lưu</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="grid-3">
+          <div class="field"><label>Tên lớp</label><input type="text" value="${c.name||''}" onchange="offlineData[${ci}].name=this.value;this.closest('.card').querySelector('.card-head h2').textContent=this.value"></div>
+          <div class="field"><label>Học phí (VNĐ)</label><input type="number" value="${c.price||''}" onchange="offlineData[${ci}].price=+this.value"></div>
+          <div class="field"><label>Giá gốc <span class="hint">(để trống nếu không có)</span></label><input type="number" value="${c.orig_price||''}" onchange="offlineData[${ci}].orig_price=+this.value||null"></div>
+        </div>
+        <div class="grid-3">
+          <div class="field"><label>Số HV tối đa</label><input type="number" value="${c.max_students||3}" min="1" onchange="offlineData[${ci}].max_students=+this.value"></div>
+          <div class="field"><label>Thời gian học</label><input type="text" value="${c.duration||''}" onchange="offlineData[${ci}].duration=this.value"></div>
+          <div class="field"><label>Badge <span class="hint">(vd: TIẾT KIỆM 42%)</span></label><input type="text" value="${c.badge_text||''}" onchange="offlineData[${ci}].badge_text=this.value"></div>
+        </div>
+        <div class="grid-1">
+          <div class="field"><label>Mô tả ngắn</label><textarea onchange="offlineData[${ci}].description=this.value">${c.description||''}</textarea></div>
+        </div>
+
+        <hr class="divider">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="section-label" style="margin-bottom:0">Quyền lợi đi kèm</div>
+          <button class="btn btn-sm btn-secondary" onclick="addCourseBenefit(${ci})">+ Thêm</button>
+        </div>
+        <div id="course-bens-${ci}">${bensHtml}</div>
+
+        <hr class="divider">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="section-label" style="margin-bottom:0">Lộ trình ngày học</div>
+          <button class="btn btn-sm btn-secondary" onclick="addDay(${ci})">+ Thêm ngày</button>
+        </div>
+        <div id="days-${ci}">${daysHtml}</div>
+      </div>
+    `;
+    list.appendChild(card);
+
+    // Init tag inputs for groups
+    c._days.forEach((d, di) => {
+      d._groups.forEach((g, gi) => {
+        const wId = `tag-${ci}-${di}-${gi}`;
+        initTagWrap(wId, g._items);
+      });
+    });
   });
 }
-function addBenefitItem(prefix) {
-  benefitState[prefix].push('');
-  renderBenefitItems(prefix, benefitState[prefix].map(t => ({text:t})));
-}
-function removeBenefitItem(prefix, i) {
-  benefitState[prefix].splice(i, 1);
-  renderBenefitItems(prefix, benefitState[prefix].map(t => ({text:t})));
+
+function groupHtml(ci, di, gi, g) {
+  const wId = `tag-${ci}-${di}-${gi}`;
+  return `
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <input type="text" value="${g.title}" placeholder="Tên nhóm (vd: Trà nền, Topping...)"
+          style="flex:1;border:1.5px solid var(--border);border-radius:7px;padding:6px 10px;font-size:.875rem;outline:none"
+          onfocus="this.style.borderColor='var(--honey)'" onblur="this.style.borderColor='var(--border)'"
+          onchange="offlineData[${ci}]._days[${di}]._groups[${gi}].title=this.value">
+        <button class="btn btn-sm btn-danger" onclick="removeGroup(${ci},${di},${gi})">Xóa nhóm</button>
+      </div>
+      <div class="tag-wrap" id="${wId}" onclick="this.querySelector('.tag-inp').focus()"></div>
+    </div>
+  `;
 }
 
-// ═══════════════════════════════════════════════════
-// SAVE FUNCTIONS
-// ═══════════════════════════════════════════════════
-async function saveCotLoi() {
-  setStatus('saving', 'Đang lưu...');
+// ── MUTATIONS ──────────────────────────────────────
+function toggleOffline(ci) {
+  offlineData[ci].active = offlineData[ci].active === false ? true : false;
+  renderOfflineList();
+}
+
+function addDay(ci) {
+  const nextNum = (offlineData[ci]._days.length || 0) + 1;
+  offlineData[ci]._days.push({ _dbId:null, day_number:nextNum, title:`Ngày ${nextNum}`, subtitle:'', _groups:[] });
+  renderOfflineList();
+}
+
+function removeDay(ci, di) {
+  if (!confirm('Xóa ngày học này và toàn bộ môn học bên trong?')) return;
+  offlineData[ci]._days.splice(di, 1);
+  // Re-number days
+  offlineData[ci]._days.forEach((d,i) => d.day_number = i+1);
+  renderOfflineList();
+}
+
+function addGroup(ci, di) {
+  offlineData[ci]._days[di]._groups.push({ _dbId:null, title:'Nhóm môn mới', _items:[] });
+  renderOfflineList();
+}
+
+function removeGroup(ci, di, gi) {
+  offlineData[ci]._days[di]._groups.splice(gi, 1);
+  renderOfflineList();
+}
+
+function addCourseBenefit(ci) {
+  offlineData[ci]._benefits.push('');
+  const container = document.getElementById(`course-bens-${ci}`);
+  const bi = offlineData[ci]._benefits.length - 1;
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:7px';
+  div.innerHTML = `
+    <input type="text" value="" placeholder="Nhập quyền lợi..." style="flex:1;border:1.5px solid var(--border);border-radius:7px;padding:7px 10px;font-size:.875rem;outline:none"
+      onchange="offlineData[${ci}]._benefits[${bi}]=this.value"
+      onfocus="this.style.borderColor='var(--honey)'" onblur="this.style.borderColor='var(--border)'">
+    <button class="btn btn-sm btn-danger" onclick="removeCourseBenefit(${ci},${bi})">Xóa</button>
+  `;
+  container.appendChild(div);
+}
+
+function removeCourseBenefit(ci, bi) {
+  offlineData[ci]._benefits.splice(bi, 1);
+  renderOfflineList();
+}
+
+function addOfflineCourse() {
+  const newId = 'course_' + Date.now();
+  offlineData.push({
+    id: newId, sort_order: offlineData.length+1,
+    name:'Lớp mới', price:0, orig_price:null,
+    max_students:3, duration:'1 ngày', badge_text:'',
+    description:'', active:true,
+    _benefits:[], _days:[]
+  });
+  renderOfflineList();
+  document.getElementById('offline-list').lastElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+async function deleteOfflineCourse(ci) {
+  const c = offlineData[ci];
+  if (!confirm(`Xóa lớp "${c.name}"?\nThao tác này không thể hoàn tác.`)) return;
   showLoader(true);
   try {
-    await sbUpsert('lp_offline_courses', {
-      id:'cotloi',
-      name: getVal('cl-name'),
-      price: +getVal('cl-price'),
-      max_students: +getVal('cl-maxhv'),
-      duration: getVal('cl-duration'),
-      badge_text: getVal('cl-badge'),
-      description: getVal('cl-desc'),
-      updated_at: new Date().toISOString()
-    });
-
-    // Quyền lợi: xóa cũ, insert mới
-    await sbDelete('lp_offline_benefits', 'course_id=eq.cotloi');
-    const bens = benefitState.cl.filter(Boolean).map((t,i) => ({ course_id:'cotloi', text:t, sort_order:i+1 }));
-    if (bens.length) await sbUpsert('lp_offline_benefits', bens);
-
-    // Nội dung món: xử lý days/groups/items cho cotloi
-    await saveOfflineItems('cotloi', [
-      { day_number:1, title:'Trà & Trà Sữa Nền', subtitle:'', groups:[
-        { title:'Trà nền + Trà trái cây', items: tagState['cl-tra-wrap']||[] },
-        { title:'Trà sữa', items: tagState['cl-sua-wrap']||[] },
-      ]}
-    ]);
-
-    setStatus('saved', '✅ Đã lưu');
-    toast('✅ Đã lưu Cốt Lõi Thực Chiến', 'ok');
-  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); }
-  finally { showLoader(false); }
-}
-
-async function saveAZ() {
-  setStatus('saving','Đang lưu...');
-  showLoader(true);
-  try {
-    await sbUpsert('lp_offline_courses', {
-      id:'az', name:getVal('az-name'),
-      price:+getVal('az-price'), orig_price:+getVal('az-orig'),
-      max_students:+getVal('az-maxhv'), duration:getVal('az-duration'),
-      badge_text:getVal('az-badge'), description:getVal('az-desc'),
-      updated_at: new Date().toISOString()
-    });
-
-    await sbDelete('lp_offline_benefits','course_id=eq.az');
-    const bens = benefitState.az.filter(Boolean).map((t,i) => ({ course_id:'az', text:t, sort_order:i+1 }));
-    if (bens.length) await sbUpsert('lp_offline_benefits', bens);
-
-    await saveOfflineItems('az', [
-      { day_number:1, title:'Trà & Trà Sữa Nền', subtitle:'', groups:[
-        { title:'Trà nền + Trà trái cây', items: tagState['az-tra-wrap']||[] },
-        { title:'Trà sữa', items: tagState['az-sua-wrap']||[] },
-      ]},
-      { day_number:2, title:'Topping, Đá Xay, Cà Phê & Matcha', subtitle:'', groups:[
-        { title:'Cách nấu topping', items: tagState['az-top-wrap']||[] },
-        { title:'Đá xay + Cà phê + Matcha', items: tagState['az-cf-wrap']||[] },
-      ]}
-    ]);
-
-    setStatus('saved','✅ Đã lưu');
-    toast('✅ Đã lưu Pha Chế Từ A–Z','ok');
-  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); }
-  finally { showLoader(false); }
-}
-
-async function saveOfflineItems(courseId, days) {
-  // Get existing day IDs for this course
-  const existingDays = await sbGet('lp_offline_days', `course_id=eq.${courseId}`);
-  const existingDayIds = existingDays.map(d => d.id);
-
-  // Delete existing groups and items via cascade
-  if (existingDayIds.length) {
-    const existingGroups = await sbGet('lp_offline_groups', `day_id=in.(${existingDayIds.join(',')})`);
-    const existingGroupIds = existingGroups.map(g => g.id);
-    if (existingGroupIds.length) {
-      await sbDelete('lp_offline_items', `group_id=in.(${existingGroupIds.join(',')})`);
-      await sbDelete('lp_offline_groups', `id=in.(${existingGroupIds.join(',')})`);
+    // Delete cascade: items → groups → days → benefits → course
+    const dayIds = c._days.filter(d=>d._dbId).map(d=>d._dbId);
+    if (dayIds.length) {
+      const groups = await sbGet('lp_offline_groups', `day_id=in.(${dayIds.join(',')})`);
+      const groupIds = groups.map(g=>g.id);
+      if (groupIds.length) {
+        await sbDelete('lp_offline_items', `group_id=in.(${groupIds.join(',')})`);
+        await sbDelete('lp_offline_groups', `id=in.(${groupIds.join(',')})`);
+      }
+      await sbDelete('lp_offline_days', `course_id=eq.${c.id}`);
     }
-    await sbDelete('lp_offline_days', `course_id=eq.${courseId}`);
-  }
+    await sbDelete('lp_offline_benefits', `course_id=eq.${c.id}`);
+    await sbDelete('lp_offline_courses', `id=eq.${c.id}`);
+    offlineData.splice(ci, 1);
+    renderOfflineList();
+    toast('✅ Đã xóa lớp '+c.name, 'ok');
+  } catch(e) { toast('Lỗi: '+e.message,'err'); }
+  finally { showLoader(false); }
+}
 
-  // Re-insert
-  for (const day of days) {
-    const dayRes = await fetch(`${SB_URL}/rest/v1/lp_offline_days`, {
-      method:'POST',
-      headers: { 'apikey':SB_SVC,'Authorization':`Bearer ${SB_SVC}`,'Content-Type':'application/json','Prefer':'return=representation' },
-      body: JSON.stringify({ course_id:courseId, day_number:day.day_number, title:day.title, subtitle:day.subtitle||'' })
-    });
-    const [dayRow] = await dayRes.json();
-
-    for (const [gi, group] of day.groups.entries()) {
-      const grpRes = await fetch(`${SB_URL}/rest/v1/lp_offline_groups`, {
-        method:'POST',
-        headers: { 'apikey':SB_SVC,'Authorization':`Bearer ${SB_SVC}`,'Content-Type':'application/json','Prefer':'return=representation' },
-        body: JSON.stringify({ day_id:dayRow.id, title:group.title, sort_order:gi+1 })
+async function saveOfflineCourse(ci) {
+  const c = offlineData[ci];
+  setStatus('saving','Đang lưu...'); showLoader(true);
+  try {
+    // Sync tag state back to _groups before saving
+    c._days.forEach((d,di) => {
+      d._groups.forEach((g,gi) => {
+        const wId = `tag-${ci}-${di}-${gi}`;
+        if (tagState[wId]) g._items = [...tagState[wId]];
       });
-      const [grpRow] = await grpRes.json();
+    });
 
-      if (group.items.length) {
-        await sbUpsert('lp_offline_items', group.items.map((name,i) => ({ group_id:grpRow.id, name, sort_order:i+1 })));
+    // 1. Upsert course
+    await sbUpsert('lp_offline_courses', {
+      id:c.id, sort_order:ci+1, name:c.name, subtitle:c.subtitle||'',
+      price:c.price, orig_price:c.orig_price||null,
+      max_students:c.max_students, duration:c.duration,
+      badge_text:c.badge_text||'', description:c.description||'',
+      active:c.active!==false, updated_at:new Date().toISOString()
+    });
+
+    // 2. Benefits
+    await sbDelete('lp_offline_benefits', `course_id=eq.${c.id}`);
+    const bens = c._benefits.filter(Boolean).map((t,i)=>({course_id:c.id,text:t,sort_order:i+1}));
+    if (bens.length) await sbUpsert('lp_offline_benefits', bens);
+
+    // 3. Days/Groups/Items — full replace
+    const existingDays = await sbGet('lp_offline_days', `course_id=eq.${c.id}`);
+    const existingDayIds = existingDays.map(d=>d.id);
+    if (existingDayIds.length) {
+      const existingGroups = await sbGet('lp_offline_groups', `day_id=in.(${existingDayIds.join(',')})`);
+      const existingGroupIds = existingGroups.map(g=>g.id);
+      if (existingGroupIds.length) {
+        await sbDelete('lp_offline_items', `group_id=in.(${existingGroupIds.join(',')})`);
+        await sbDelete('lp_offline_groups', `id=in.(${existingGroupIds.join(',')})`);
+      }
+      await sbDelete('lp_offline_days', `course_id=eq.${c.id}`);
+    }
+
+    for (const day of c._days) {
+      const dayRes = await fetch(`${SB_URL}/rest/v1/lp_offline_days`, {
+        method:'POST',
+        headers:{'apikey':SB_SVC,'Authorization':`Bearer ${SB_SVC}`,'Content-Type':'application/json','Prefer':'return=representation'},
+        body:JSON.stringify({course_id:c.id,day_number:day.day_number,title:day.title,subtitle:day.subtitle||''})
+      });
+      const [dayRow] = await dayRes.json();
+
+      for (const [gi,group] of day._groups.entries()) {
+        const grpRes = await fetch(`${SB_URL}/rest/v1/lp_offline_groups`, {
+          method:'POST',
+          headers:{'apikey':SB_SVC,'Authorization':`Bearer ${SB_SVC}`,'Content-Type':'application/json','Prefer':'return=representation'},
+          body:JSON.stringify({day_id:dayRow.id,title:group.title,sort_order:gi+1})
+        });
+        const [grpRow] = await grpRes.json();
+        if (group._items.length) {
+          await sbUpsert('lp_offline_items', group._items.map((name,i)=>({group_id:grpRow.id,name,sort_order:i+1})));
+        }
       }
     }
-  }
+
+    setStatus('saved','✅ Đã lưu');
+    toast(`✅ Đã lưu lớp "${c.name}"`, 'ok');
+  } catch(e) { setStatus('dirty','❌ Lỗi'); toast('Lỗi: '+e.message,'err'); console.error(e); }
+  finally { showLoader(false); }
+}
+
+// ── POPULATE (called from populateForms) ──────────
+function populateOffline() {
+  buildOfflineData();
+  renderOfflineList();
+  document.getElementById('s-offline').textContent = offlineData.filter(c=>c.active!==false).length;
 }
 
 async function saveFounder() {
