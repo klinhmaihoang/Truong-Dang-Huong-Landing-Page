@@ -133,8 +133,8 @@
     <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-[var(--espresso-soft)]">
       <a href="#about" class="hover:text-[var(--honey-deep)] transition-colors">Về cô</a>
       <a href="#why" class="hover:text-[var(--honey-deep)] transition-colors">Vì sao chọn</a>
-      <a href="#cotloi" class="hover:text-[var(--honey-deep)] transition-colors">Cốt Lõi</a>
-      <a href="#offline" class="hover:text-[var(--honey-deep)] transition-colors">A–Z</a>
+      <a href="#sb-offline-wrapper" class="hover:text-[var(--honey-deep)] transition-colors">Cốt Lõi</a>
+      <a href="#sb-offline-wrapper" class="hover:text-[var(--honey-deep)] transition-colors">A–Z</a>
       <a href="#online" class="hover:text-[var(--honey-deep)] transition-colors">Khóa Online</a>
       <a href="#contact" class="hover:text-[var(--honey-deep)] transition-colors">Liên hệ</a>
     </nav>
@@ -186,7 +186,7 @@
         <a href="#contact" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-full">
           Đăng Ký Tư Vấn Ngay <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 inline-block"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <a href="#offline" class="inline-flex items-center gap-2 bg-white border border-[var(--line)] hover:border-[var(--terracotta)] hover:text-[var(--honey-deep)] text-[var(--espresso)] font-semibold px-7 py-3.5 rounded-full transition-colors">
+        <a href="#sb-offline-wrapper" id="btn-xem-khoa" class="inline-flex items-center gap-2 bg-white border border-[var(--line)] hover:border-[var(--terracotta)] hover:text-[var(--honey-deep)] text-[var(--espresso)] font-semibold px-7 py-3.5 rounded-full transition-colors">
           Xem khóa học
         </a>
       </div>
@@ -1228,6 +1228,16 @@
     const onlineOptions = onlineCourseNames.map(n => `<option>${n}</option>`).join('');
     courseSelect.innerHTML = `<option value="">— Chọn khóa học —</option>${offlineOptions}${onlineOptions}`;
   }
+
+  // ── 5. Fix anchor scroll sau khi dynamic content render ──
+  // Đảm bảo #sb-offline-wrapper tồn tại trước khi scroll
+  document.querySelectorAll('a[href="#sb-offline-wrapper"], #btn-xem-khoa').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.getElementById('sb-offline-wrapper') || document.getElementById('cotloi') || document.getElementById('offline');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 
 })();
 </script>
